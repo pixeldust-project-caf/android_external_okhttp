@@ -88,29 +88,6 @@ java_library {
     ],
 }
 
-// A guaranteed unstripped version of okhttp.
-// The build system may or may not strip the okhttp jar, but this one will
-// not be stripped. See b/24535627.
-java_library {
-    name: "okhttp-testdex",
-    visibility: [
-        "//art:__subpackages__",
-    ],
-    static_libs: ["okhttp"],
-
-    installable: true,
-
-    sdk_version: "none",
-    system_modules: "core-all-system-modules",
-    libs: [
-        "conscrypt.module.intra.core.api.stubs",
-    ],
-    dex_preopt: {
-        enabled: false,
-    },
-    java_version: "1.7",
-}
-
 java_library {
     name: "okhttp-tests-nojarjar",
     visibility: nojarjar_visibility,
