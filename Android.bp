@@ -56,37 +56,54 @@ java_library {
     sdk_version: "none",
     system_modules: "core-all-system-modules",
     libs: [
-        "conscrypt.module.intra.core.api.stubs",
+        "conscrypt.module.intra.core.api",
     ],
     java_version: "1.7",
 }
 
 java_library {
     name: "okhttp",
+    host_supported: true,
     visibility: [
         "//art/build/apex",
+        "//external/grpc-grpc-java/okhttp",
         "//external/robolectric-shadows",
         "//libcore",
     ],
-    srcs: [
-        // Although some of the classes in the android/ directory are already in the correct
-        // package and do not need to be moved to another package they are transformed as they
-        // reference other classes that do require repackaging.
-        "repackaged/android/src/main/java/**/*.java",
-        "repackaged/okhttp/src/main/java/**/*.java",
-        "repackaged/okhttp-urlconnection/src/main/java/**/*.java",
-        "repackaged/okhttp-android-support/src/main/java/**/*.java",
-        "repackaged/okio/okio/src/main/java/**/*.java",
-    ],
+    target: {
+        android: {
+            srcs: [
+                // Although some of the classes in the android/ directory are already in the correct
+                // package and do not need to be moved to another package they are transformed as they
+                // reference other classes that do require repackaging.
+                "repackaged/android/src/main/java/**/*.java",
+                "repackaged/okhttp/src/main/java/**/*.java",
+                "repackaged/okhttp-urlconnection/src/main/java/**/*.java",
+                "repackaged/okhttp-android-support/src/main/java/**/*.java",
+                "repackaged/okio/okio/src/main/java/**/*.java",
+            ],
+            libs: [
+                "conscrypt.module.intra.core.api",
+            ],
+        },
+        host: {
+            srcs: [
+                "okhttp/src/main/java/**/*.java",
+                "okhttp-urlconnection/src/main/java/**/*.java",
+                "okio/okio/src/main/java/**/*.java",
+                ":okhttp_version.java",
+            ],
+            libs: [
+                "okhttp-android-util-log",
+            ],
+        },
+    },
 
     hostdex: true,
     installable: true,
 
-    sdk_version: "none",
     system_modules: "core-all-system-modules",
-    libs: [
-        "conscrypt.module.intra.core.api.stubs",
-    ],
+    sdk_version: "none",
     java_version: "1.7",
     apex_available: [
         "com.android.art.debug",
@@ -94,27 +111,26 @@ java_library {
     ],
 }
 
-// A guaranteed unstripped version of okhttp.
-// The build system may or may not strip the okhttp jar, but this one will
-// not be stripped. See b/24535627.
-java_library {
-    name: "okhttp-testdex",
-    visibility: [
-        "//art:__subpackages__",
+// Generate Version.java based on the version number from pom.xml.
+genrule {
+    name: "okhttp_version.java",
+    srcs: [
+        "okhttp/src/main/java-templates/com/squareup/okhttp/internal/Version.java",
+        "okhttp/pom.xml",
     ],
-    static_libs: ["okhttp"],
+    out: ["com/squareup/okhttp/internal/Version.java"],
+    cmd: "grep \"<version>\" $(location okhttp/pom.xml) | head -1 |" +
+        " sed -e \"s/\\s*<version>\\(.*\\)<\\/version>/\\1/\" > $(genDir)/version && " +
+        "sed -e \"s/\\$${project.version}/$$(cat $(genDir)/version)/\" " +
+        " $(location okhttp/src/main/java-templates/com/squareup/okhttp/internal/Version.java) " +
+        "> $(out)",
+}
 
-    installable: true,
-
-    sdk_version: "none",
-    system_modules: "core-all-system-modules",
-    libs: [
-        "conscrypt.module.intra.core.api.stubs",
-    ],
-    dex_preopt: {
-        enabled: false,
-    },
-    java_version: "1.7",
+// A library to provide a stub android.util.Log symbol for
+// okhttp/src/main/java/com/squareup/okhttp/internal/Platform.java
+java_library_host {
+    name: "okhttp-android-util-log",
+    srcs: ["okhttp-android-util-log/src/main/java/**/*.java"],
 }
 
 java_library {
@@ -140,7 +156,7 @@ java_library {
     libs: [
         "okhttp-nojarjar",
         "junit",
-        "conscrypt.module.intra.core.api.stubs",
+        "conscrypt.module.intra.core.api",
         "bouncycastle-unbundled",
     ],
 
