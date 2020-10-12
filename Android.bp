@@ -101,8 +101,8 @@ java_library {
     sdk_version: "none",
     java_version: "1.7",
     apex_available: [
+        "com.android.art",
         "com.android.art.debug",
-        "com.android.art.release",
     ],
 }
 
