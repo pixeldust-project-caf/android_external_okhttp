@@ -57,7 +57,6 @@ java_library {
 
 java_library {
     name: "okhttp",
-    host_supported: true,
     visibility: [
         "//art/build/apex",
         "//art/build/sdk",
@@ -65,40 +64,25 @@ java_library {
         "//external/robolectric-shadows",
         "//libcore",
     ],
-    target: {
-        android: {
-            srcs: [
-                // Although some of the classes in the android/ directory are already in the correct
-                // package and do not need to be moved to another package they are transformed as they
-                // reference other classes that do require repackaging.
-                "repackaged/android/src/main/java/**/*.java",
-                "repackaged/okhttp/src/main/java/**/*.java",
-                "repackaged/okhttp-urlconnection/src/main/java/**/*.java",
-                "repackaged/okhttp-android-support/src/main/java/**/*.java",
-                "repackaged/okio/okio/src/main/java/**/*.java",
-            ],
-            libs: [
-                "conscrypt.module.intra.core.api",
-            ],
-        },
-        host: {
-            srcs: [
-                "okhttp/src/main/java/**/*.java",
-                "okhttp-urlconnection/src/main/java/**/*.java",
-                "okio/okio/src/main/java/**/*.java",
-                ":okhttp_version.java",
-            ],
-            libs: [
-                "okhttp-android-util-log",
-            ],
-        },
-    },
+    srcs: [
+        // Although some of the classes in the android/ directory are already in the correct
+        // package and do not need to be moved to another package they are transformed as they
+        // reference other classes that do require repackaging.
+        "repackaged/android/src/main/java/**/*.java",
+        "repackaged/okhttp/src/main/java/**/*.java",
+        "repackaged/okhttp-urlconnection/src/main/java/**/*.java",
+        "repackaged/okhttp-android-support/src/main/java/**/*.java",
+        "repackaged/okio/okio/src/main/java/**/*.java",
+    ],
 
     hostdex: true,
     installable: true,
 
-    system_modules: "core-all-system-modules",
     sdk_version: "none",
+    system_modules: "core-all-system-modules",
+    libs: [
+        "conscrypt.module.intra.core.api",
+    ],
     java_version: "1.7",
     apex_available: [
         "com.android.art",
