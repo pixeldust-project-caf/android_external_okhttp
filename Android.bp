@@ -106,6 +106,37 @@ java_library {
     ],
 }
 
+// Java Library for both Host and Android that does not use the repackaged okhttp libraries
+// (com.android.okhttp) and instead uses the original (com.squareup.okhttp) packages.
+// This should not end up on the bootclasspath and instead should only be used to build
+// third-party or unbundled applications or libraries that require OkHttp.
+java_library {
+    name: "okhttp-norepackage",
+    host_supported: true,
+
+    visibility: [
+        "//external/grpc-grpc-java/okhttp",
+    ],
+
+    srcs: [
+        "okhttp/src/main/java/**/*.java",
+        "okhttp-urlconnection/src/main/java/**/*.java",
+        "okio/okio/src/main/java/**/*.java",
+        ":okhttp_version.java",
+    ],
+
+    target: {
+        host: {
+            libs: [
+                "okhttp-android-util-log",
+            ],
+        },
+    },
+
+    installable: true,
+    sdk_version: "current",
+}
+
 // Generate Version.java based on the version number from pom.xml.
 genrule {
     name: "okhttp_version.java",
