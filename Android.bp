@@ -63,52 +63,68 @@ java_library {
 
 java_library {
     name: "okhttp",
-    host_supported: true,
     visibility: [
         "//art/build/apex",
+        "//art/build/sdk",
         "//external/grpc-grpc-java/okhttp",
         "//external/robolectric-shadows",
         "//libcore",
     ],
+    srcs: [
+        // Although some of the classes in the android/ directory are already in the correct
+        // package and do not need to be moved to another package they are transformed as they
+        // reference other classes that do require repackaging.
+        "repackaged/android/src/main/java/**/*.java",
+        "repackaged/okhttp/src/main/java/**/*.java",
+        "repackaged/okhttp-urlconnection/src/main/java/**/*.java",
+        "repackaged/okhttp-android-support/src/main/java/**/*.java",
+        "repackaged/okio/okio/src/main/java/**/*.java",
+    ],
+
+    hostdex: true,
+    installable: true,
+
+    sdk_version: "none",
+    system_modules: "core-all-system-modules",
+    libs: [
+        "conscrypt.module.intra.core.api",
+    ],
+    java_version: "1.7",
+    apex_available: [
+        "com.android.art",
+        "com.android.art.debug",
+    ],
+}
+
+// Java Library for both Host and Android that does not use the repackaged okhttp libraries
+// (com.android.okhttp) and instead uses the original (com.squareup.okhttp) packages.
+// This should not end up on the bootclasspath and instead should only be used to build
+// third-party or unbundled applications or libraries that require OkHttp.
+java_library {
+    name: "okhttp-norepackage",
+    host_supported: true,
+
+    visibility: [
+        "//external/grpc-grpc-java/okhttp",
+    ],
+
+    srcs: [
+        "okhttp/src/main/java/**/*.java",
+        "okhttp-urlconnection/src/main/java/**/*.java",
+        "okio/okio/src/main/java/**/*.java",
+        ":okhttp_version.java",
+    ],
+
     target: {
-        android: {
-            srcs: [
-                // Although some of the classes in the android/ directory are already in the correct
-                // package and do not need to be moved to another package they are transformed as they
-                // reference other classes that do require repackaging.
-                "repackaged/android/src/main/java/**/*.java",
-                "repackaged/okhttp/src/main/java/**/*.java",
-                "repackaged/okhttp-urlconnection/src/main/java/**/*.java",
-                "repackaged/okhttp-android-support/src/main/java/**/*.java",
-                "repackaged/okio/okio/src/main/java/**/*.java",
-            ],
-            libs: [
-                "conscrypt.module.intra.core.api",
-            ],
-        },
         host: {
-            srcs: [
-                "okhttp/src/main/java/**/*.java",
-                "okhttp-urlconnection/src/main/java/**/*.java",
-                "okio/okio/src/main/java/**/*.java",
-                ":okhttp_version.java",
-            ],
             libs: [
                 "okhttp-android-util-log",
             ],
         },
     },
 
-    hostdex: true,
     installable: true,
-
-    system_modules: "core-all-system-modules",
-    sdk_version: "none",
-    java_version: "1.7",
-    apex_available: [
-        "com.android.art.debug",
-        "com.android.art.release",
-    ],
+    sdk_version: "current",
 }
 
 // Generate Version.java based on the version number from pom.xml.
