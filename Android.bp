@@ -105,6 +105,7 @@ java_library {
     host_supported: true,
 
     visibility: [
+        "//art/build/sdk",
         "//external/grpc-grpc-java/okhttp",
     ],
 
