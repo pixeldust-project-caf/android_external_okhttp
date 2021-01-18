@@ -63,6 +63,7 @@ java_library {
         "//external/grpc-grpc-java/okhttp",
         "//external/robolectric-shadows",
         "//libcore",
+        "//packages/modules/ArtPrebuilt",
     ],
     srcs: [
         // Although some of the classes in the android/ directory are already in the correct
