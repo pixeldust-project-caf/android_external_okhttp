@@ -103,6 +103,7 @@ java_library {
         "com.android.art",
         "com.android.art.debug",
     ],
+    min_sdk_version: "31",
 }
 
 // Java Library for both Host and Android that does not use the repackaged okhttp libraries
