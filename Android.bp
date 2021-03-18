@@ -69,26 +69,6 @@ java_library {
     java_version: "1.7",
 }
 
-// The source implementation files, used to build okhttp and core-all. It is
-// used in the latter case to break the cycle where okhttp depends on core-all
-// and core-all depends on okhttp. By including the source into core-all it
-// ensures that the code can all build correctly and then that is used to build
-// the separate parts.
-filegroup {
-    name: "okhttp_impl_files",
-    visibility: ["//libcore"],
-    srcs: [
-        // Although some of the classes in the android/ directory are already in the correct
-        // package and do not need to be moved to another package they are transformed as they
-        // reference other classes that do require repackaging.
-        "repackaged/android/src/main/java/**/*.java",
-        "repackaged/okhttp/src/main/java/**/*.java",
-        "repackaged/okhttp-urlconnection/src/main/java/**/*.java",
-        "repackaged/okhttp-android-support/src/main/java/**/*.java",
-        "repackaged/okio/okio/src/main/java/**/*.java",
-    ],
-}
-
 java_library {
     name: "okhttp",
     visibility: [
@@ -100,7 +80,14 @@ java_library {
         "//packages/modules/ArtPrebuilt",
     ],
     srcs: [
-        ":okhttp_impl_files",
+        // Although some of the classes in the android/ directory are already in the correct
+        // package and do not need to be moved to another package they are transformed as they
+        // reference other classes that do require repackaging.
+        "repackaged/android/src/main/java/**/*.java",
+        "repackaged/okhttp/src/main/java/**/*.java",
+        "repackaged/okhttp-urlconnection/src/main/java/**/*.java",
+        "repackaged/okhttp-android-support/src/main/java/**/*.java",
+        "repackaged/okio/okio/src/main/java/**/*.java",
     ],
 
     hostdex: true,
