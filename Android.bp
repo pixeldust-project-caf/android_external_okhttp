@@ -125,6 +125,20 @@ java_library {
     min_sdk_version: "31",
 }
 
+// Java library for use on host, e.g. by robolectric.
+java_library {
+    name: "okhttp-for-host",
+    visibility: [
+        "//art/build/sdk",
+        "//external/robolectric-shadows",
+    ],
+    static_libs: [
+        "okhttp",
+    ],
+    sdk_version: "none",
+    system_modules: "none",
+}
+
 // Java Library for both Host and Android that does not use the repackaged okhttp libraries
 // (com.android.okhttp) and instead uses the original (com.squareup.okhttp) packages.
 // This should not end up on the bootclasspath and instead should only be used to build
