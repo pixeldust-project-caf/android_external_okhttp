@@ -29,6 +29,8 @@ public interface HasCacheHolder {
 
     /**
      * Returns the {@link CacheHolder} object.
+     *
+     * @hide
      */
     @libcore.api.CorePlatformApi
     CacheHolder getCacheHolder();
@@ -68,6 +70,8 @@ public interface HasCacheHolder {
          *
          * @param directory a writable directory
          * @param maxSizeBytes the maximum number of bytes this cache should use to store
+         *
+         * @hide
          */
         @libcore.api.CorePlatformApi
         public static CacheHolder create(File directory, long maxSizeBytes) {
@@ -78,6 +82,8 @@ public interface HasCacheHolder {
         /**
          * Returns true if the arguments supplied would result in an equivalent cache to this one
          * being created if they were passed to {@link #create(File, long)}.
+         *
+         * @hide
          */
         @libcore.api.CorePlatformApi
         public boolean isEquivalent(File directory, long maxSizeBytes) {
