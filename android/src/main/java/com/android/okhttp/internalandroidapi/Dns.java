@@ -24,7 +24,6 @@ import java.util.List;
  * A domain name service that resolves IP addresses for host names.
  * @hide
  */
-@libcore.api.CorePlatformApi
 public interface Dns {
     /**
      * Returns the IP addresses of {@code hostname}, in the order they should
@@ -32,6 +31,5 @@ public interface Dns {
      *
      * @hide
      */
-    @libcore.api.CorePlatformApi
     List<InetAddress> lookup(String hostname) throws UnknownHostException;
 }
