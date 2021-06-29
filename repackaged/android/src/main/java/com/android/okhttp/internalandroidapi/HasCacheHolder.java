@@ -17,6 +17,12 @@
 
 package com.android.okhttp.internalandroidapi;
 
+import static android.annotation.SystemApi.Client.MODULE_LIBRARIES;
+
+import android.annotation.SystemApi;
+
+import libcore.util.NonNull;
+
 import com.android.okhttp.Cache;
 
 import java.io.File;
@@ -26,7 +32,8 @@ import java.io.File;
  * @hide
  * @hide This class is not part of the Android public SDK API
  */
-@libcore.api.CorePlatformApi
+@SystemApi(client = MODULE_LIBRARIES)
+@libcore.api.CorePlatformApi(status = libcore.api.CorePlatformApi.Status.STABLE)
 public interface HasCacheHolder {
 
     /**
@@ -34,15 +41,17 @@ public interface HasCacheHolder {
      *
      * @hide
      */
-    @libcore.api.CorePlatformApi
-    CacheHolder getCacheHolder();
+    @SystemApi(client = MODULE_LIBRARIES)
+    @libcore.api.CorePlatformApi(status = libcore.api.CorePlatformApi.Status.STABLE)
+    @NonNull CacheHolder getCacheHolder();
 
     /**
      * A holder for an OkHttp internal Cache object. This class exists as an opaque layer over
      * OkHttp internal classes.
      * @hide
      */
-    @libcore.api.CorePlatformApi
+    @SystemApi(client = MODULE_LIBRARIES)
+    @libcore.api.CorePlatformApi(status = libcore.api.CorePlatformApi.Status.STABLE)
     final class CacheHolder {
 
         private final Cache okHttpCache;
@@ -75,8 +84,9 @@ public interface HasCacheHolder {
          *
          * @hide
          */
-        @libcore.api.CorePlatformApi
-        public static CacheHolder create(File directory, long maxSizeBytes) {
+        @SystemApi(client = MODULE_LIBRARIES)
+        @libcore.api.CorePlatformApi(status = libcore.api.CorePlatformApi.Status.STABLE)
+        public static @NonNull CacheHolder create(@NonNull File directory, long maxSizeBytes) {
             Cache cache = new Cache(directory, maxSizeBytes);
             return new CacheHolder(cache);
         }
@@ -87,8 +97,9 @@ public interface HasCacheHolder {
          *
          * @hide
          */
-        @libcore.api.CorePlatformApi
-        public boolean isEquivalent(File directory, long maxSizeBytes) {
+        @SystemApi(client = MODULE_LIBRARIES)
+        @libcore.api.CorePlatformApi(status = libcore.api.CorePlatformApi.Status.STABLE)
+        public boolean isEquivalent(@NonNull File directory, long maxSizeBytes) {
             return (okHttpCache.getDirectory().equals(directory)
                     && okHttpCache.getMaxSize() == maxSizeBytes
                     && !okHttpCache.isClosed());

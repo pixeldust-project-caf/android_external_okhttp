@@ -26,7 +26,6 @@ import java.util.List;
  * @hide
  * @hide This class is not part of the Android public SDK API
  */
-@libcore.api.CorePlatformApi
 public interface Dns {
     /**
      * Returns the IP addresses of {@code hostname}, in the order they should
@@ -34,6 +33,5 @@ public interface Dns {
      *
      * @hide
      */
-    @libcore.api.CorePlatformApi
     List<InetAddress> lookup(String hostname) throws UnknownHostException;
 }
