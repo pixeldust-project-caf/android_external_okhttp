@@ -16,7 +16,15 @@
 
 package com.android.okhttp.internalandroidapi;
 
+import static android.annotation.SystemApi.Client.MODULE_LIBRARIES;
+
+import android.annotation.SystemApi;
+
 import com.android.okhttp.internalandroidapi.HasCacheHolder.CacheHolder;
+
+import libcore.util.NonNull;
+import libcore.util.Nullable;
+
 import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
@@ -38,7 +46,8 @@ import java.util.Map;
  * classes appearing on method signatures.
  * @hide
  */
-@libcore.api.CorePlatformApi
+@SystemApi(client = MODULE_LIBRARIES)
+@libcore.api.CorePlatformApi(status = libcore.api.CorePlatformApi.Status.STABLE)
 public final class AndroidResponseCacheAdapter {
 
     private final CacheHolder cacheHolder;
@@ -49,8 +58,9 @@ public final class AndroidResponseCacheAdapter {
      *
      * @hide
      */
-    @libcore.api.CorePlatformApi
-    public AndroidResponseCacheAdapter(CacheHolder cacheHolder) {
+    @SystemApi(client = MODULE_LIBRARIES)
+    @libcore.api.CorePlatformApi(status = libcore.api.CorePlatformApi.Status.STABLE)
+    public AndroidResponseCacheAdapter(@NonNull CacheHolder cacheHolder) {
         this.cacheHolder = cacheHolder;
         // Avoid one level of dereferencing by storing the reference to the OkHttp cache for later.
         this.okHttpCache = cacheHolder.getCache();
@@ -62,8 +72,9 @@ public final class AndroidResponseCacheAdapter {
      *
      * @hide
      */
-    @libcore.api.CorePlatformApi
-    public CacheHolder getCacheHolder() {
+    @SystemApi(client = MODULE_LIBRARIES)
+    @libcore.api.CorePlatformApi(status = libcore.api.CorePlatformApi.Status.STABLE)
+    public @NonNull CacheHolder getCacheHolder() {
         return cacheHolder;
     }
 
@@ -73,9 +84,10 @@ public final class AndroidResponseCacheAdapter {
      *
      * @hide
      */
-    @libcore.api.CorePlatformApi
-    public CacheResponse get(URI uri, String requestMethod,
-            Map<String, List<String>> requestHeaders) throws IOException {
+    @SystemApi(client = MODULE_LIBRARIES)
+    @libcore.api.CorePlatformApi(status = libcore.api.CorePlatformApi.Status.STABLE)
+    public @Nullable CacheResponse get(@NonNull URI uri, @NonNull String requestMethod,
+            @Nullable Map<String, List<String>> requestHeaders) throws IOException {
         Request okRequest = JavaApiConverter.createOkRequest(uri, requestMethod, requestHeaders);
         Response okResponse = okHttpCache.internalCache.get(okRequest);
         if (okResponse == null) {
@@ -90,8 +102,10 @@ public final class AndroidResponseCacheAdapter {
      *
      * @hide
      */
-    @libcore.api.CorePlatformApi
-    public CacheRequest put(URI uri, URLConnection urlConnection) throws IOException {
+    @SystemApi(client = MODULE_LIBRARIES)
+    @libcore.api.CorePlatformApi(status = libcore.api.CorePlatformApi.Status.STABLE)
+    public @Nullable CacheRequest put(@NonNull URI uri, @NonNull URLConnection urlConnection)
+            throws IOException {
         Response okResponse = JavaApiConverter.createOkResponseForCachePut(uri, urlConnection);
         if (okResponse == null) {
             // The URLConnection is not cacheable or could not be converted. Stop.
@@ -112,7 +126,8 @@ public final class AndroidResponseCacheAdapter {
      *
      * @hide
      */
-    @libcore.api.CorePlatformApi
+    @SystemApi(client = MODULE_LIBRARIES)
+    @libcore.api.CorePlatformApi(status = libcore.api.CorePlatformApi.Status.STABLE)
     public long getSize() throws IOException {
         return okHttpCache.getSize();
     }
@@ -123,7 +138,8 @@ public final class AndroidResponseCacheAdapter {
      *
      * @hide
      */
-    @libcore.api.CorePlatformApi
+    @SystemApi(client = MODULE_LIBRARIES)
+    @libcore.api.CorePlatformApi(status = libcore.api.CorePlatformApi.Status.STABLE)
     public long getMaxSize() {
         return okHttpCache.getMaxSize();
     }
@@ -135,7 +151,8 @@ public final class AndroidResponseCacheAdapter {
      *
      * @hide
      */
-    @libcore.api.CorePlatformApi
+    @SystemApi(client = MODULE_LIBRARIES)
+    @libcore.api.CorePlatformApi(status = libcore.api.CorePlatformApi.Status.STABLE)
     public void flush() throws IOException {
         okHttpCache.flush();
     }
@@ -146,7 +163,8 @@ public final class AndroidResponseCacheAdapter {
      *
      * @hide
      */
-    @libcore.api.CorePlatformApi
+    @SystemApi(client = MODULE_LIBRARIES)
+    @libcore.api.CorePlatformApi(status = libcore.api.CorePlatformApi.Status.STABLE)
     public int getNetworkCount() {
         return okHttpCache.getNetworkCount();
     }
@@ -158,7 +176,8 @@ public final class AndroidResponseCacheAdapter {
      *
      * @hide
      */
-    @libcore.api.CorePlatformApi
+    @SystemApi(client = MODULE_LIBRARIES)
+    @libcore.api.CorePlatformApi(status = libcore.api.CorePlatformApi.Status.STABLE)
     public int getHitCount() {
         return okHttpCache.getHitCount();
     }
@@ -170,7 +189,8 @@ public final class AndroidResponseCacheAdapter {
      *
      * @hide
      */
-    @libcore.api.CorePlatformApi
+    @SystemApi(client = MODULE_LIBRARIES)
+    @libcore.api.CorePlatformApi(status = libcore.api.CorePlatformApi.Status.STABLE)
     public int getRequestCount() {
         return okHttpCache.getRequestCount();
     }
@@ -180,7 +200,8 @@ public final class AndroidResponseCacheAdapter {
      *
      * @hide
      */
-    @libcore.api.CorePlatformApi
+    @SystemApi(client = MODULE_LIBRARIES)
+    @libcore.api.CorePlatformApi(status = libcore.api.CorePlatformApi.Status.STABLE)
     public void close() throws IOException {
         okHttpCache.close();
     }
@@ -192,7 +213,8 @@ public final class AndroidResponseCacheAdapter {
      *
      * @hide
      */
-    @libcore.api.CorePlatformApi
+    @SystemApi(client = MODULE_LIBRARIES)
+    @libcore.api.CorePlatformApi(status = libcore.api.CorePlatformApi.Status.STABLE)
     public void delete() throws IOException {
         okHttpCache.delete();
     }
