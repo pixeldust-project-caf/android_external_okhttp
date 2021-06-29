@@ -51,14 +51,12 @@ import javax.net.SocketFactory;
  *
  * @hide
  */
-@libcore.api.CorePlatformApi
 public final class HttpURLConnectionFactory {
 
     private ConnectionPool connectionPool;
     private com.squareup.okhttp.Dns dns;
 
     /** @hide */
-    @libcore.api.CorePlatformApi
     public HttpURLConnectionFactory() {
     }
 
@@ -68,14 +66,12 @@ public final class HttpURLConnectionFactory {
      *
      * @hide
      */
-    @libcore.api.CorePlatformApi
     public void setNewConnectionPool(int maxIdleConnections, long keepAliveDuration,
             TimeUnit timeUnit) {
         this.connectionPool = new ConnectionPool(maxIdleConnections, keepAliveDuration, timeUnit);
     }
 
     /** @hide */
-    @libcore.api.CorePlatformApi
     public void setDns(Dns dns) {
         Objects.requireNonNull(dns);
         this.dns = new DnsAdapter(dns);
@@ -118,7 +114,6 @@ public final class HttpURLConnectionFactory {
      *
      * @hide
      */
-    @libcore.api.CorePlatformApi
     public URLConnection openConnection(URL url, SocketFactory socketFactory, Proxy proxy)
             throws IOException {
         Objects.requireNonNull(socketFactory);
