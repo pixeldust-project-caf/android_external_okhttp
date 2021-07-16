@@ -103,7 +103,8 @@ public final class Spdy3ConnectionTest {
 
       FramedConnection connection = connection(peer, SPDY3);
       FramedStream stream = connection.newStream(headerEntries("a", "android"), false, false);
-      assertEquals(1, connection.openStreamCount());
+      // We cannot reliably check connection.openStreamCount as the stream gets closed once headers
+      // are exchanged and this can happen before newStream returns
       assertEquals(headerEntries("b", "banana"), stream.getResponseHeaders());
       connection.ping().roundTripTime(); // Ensure that inFinished has been received.
       assertEquals(0, connection.openStreamCount());
