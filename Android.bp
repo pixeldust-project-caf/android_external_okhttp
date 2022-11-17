@@ -96,6 +96,7 @@ java_library {
         "//art/build/sdk",
         "//external/grpc-grpc-java/okhttp",
         "//external/robolectric-shadows",
+        "//external/robolectric",
         "//libcore",
         "//packages/modules/ArtPrebuilt",
     ],
@@ -125,6 +126,7 @@ java_library {
     visibility: [
         "//art/build/sdk",
         "//external/robolectric-shadows",
+        "//external/robolectric",
     ],
     static_libs: [
         "okhttp",
